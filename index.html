@@ -48,6 +48,20 @@
             box-shadow: 0 20px 40px rgba(255, 77, 109, 0.2);
             z-index: 10;
             transform-style: preserve-3d;
+            overflow: hidden;
+            /* Hide letter initially */
+        }
+
+        /* Visible State Animation */
+        .container.open .envelope {
+            animation: makeVisible 0.1s 0.4s forwards;
+            /* Delay matching letter animation start */
+        }
+
+        @keyframes makeVisible {
+            to {
+                overflow: visible;
+            }
         }
 
         .flap {
@@ -97,10 +111,12 @@
         /* The Letter */
         .letter {
             position: absolute;
-            top: 10px;
-            left: 15px;
-            width: 290px;
-            height: 200px;
+            top: 15px;
+            left: 25px;
+            /* Centered with 270 width in 320 container */
+            width: 270px;
+            height: 190px;
+            /* Slightly smaller */
             background: #fffdf9;
             /* Paper texture */
             background-image: repeating-linear-gradient(#fffdf9 0px, #fffdf9 24px, #eee 25px);
@@ -192,21 +208,22 @@
             }
 
             40% {
-                transform: translateY(-180px);
+                transform: translateY(-190px);
+                /* Slightly more up due to overflow change? No same */
                 /* Slide Up more */
                 z-index: 5;
             }
 
             50% {
                 z-index: 25;
-                /* Move above flaps now */
-                transform: translateY(-180px);
+                /* Move to front */
+                transform: translateY(-190px);
             }
 
             100% {
                 transform: translateY(-50px) translateZ(400px) rotateX(10deg);
                 /* Move Forward */
-                z-index: 25;
+                z-index: 30;
                 box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             }
         }
