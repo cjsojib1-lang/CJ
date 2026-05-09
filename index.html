@@ -1,305 +1,233 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Valentine</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;500&display=swap"
-        rel="stylesheet">
+    <title>REDZED SPAM PANEL - v1.120.1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --primary: #ff4d6d;
-            --secondary: #ff8fa3;
-            --bg: #fff0f3;
-            --envelope: #ff9fb4;
-            --envelope-dark: #ff8fa3;
-            --envelope-flap: #ffb1c1;
-            --gold: #d4af37;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Hind+Siliguri:wght@400;700&display=swap');
+        
         body {
-            background: linear-gradient(135deg, #fff0f3 0%, #ffe3e8 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
         }
 
-        .container {
-            position: relative;
-            width: 320px;
-            height: 220px;
-            cursor: pointer;
-            perspective: 1500px;
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Envelope Structure */
-        .envelope {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: var(--envelope);
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.2);
-            z-index: 10;
-            transform-style: preserve-3d;
-            overflow: hidden;
-            /* Hide letter initially */
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Visible State Animation */
-        .container.open .envelope {
-            animation: makeVisible 0.1s 0.4s forwards;
-            /* Delay matching letter animation start */
+        .neon-border {
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.5);
         }
 
-        @keyframes makeVisible {
-            to {
-                overflow: visible;
-            }
+        .log-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .log-container::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 10px;
         }
 
-        .flap {
-            position: absolute;
-            width: 0;
-            height: 0;
-            z-index: 20;
+        @keyframes pulse-red {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
-
-        .flap.top {
-            top: 0;
-            left: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-top: 110px solid var(--envelope-flap);
-            transform-origin: top;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, z-index 0.2s;
-            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.05));
-        }
-
-        .flap.right {
-            top: 0;
-            right: 0;
-            border-top: 110px solid transparent;
-            border-bottom: 110px solid transparent;
-            border-right: 160px solid var(--envelope-dark);
-        }
-
-        .flap.bottom {
-            bottom: 0;
-            left: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-bottom: 120px solid var(--envelope);
-            border-radius: 0 0 15px 15px;
-            filter: drop-shadow(0 -2px 5px rgba(0, 0, 0, 0.05));
-        }
-
-        .flap.left {
-            top: 0;
-            left: 0;
-            border-top: 110px solid transparent;
-            border-bottom: 110px solid transparent;
-            border-left: 160px solid var(--envelope-dark);
-        }
-
-        /* The Letter */
-        .letter {
-            position: absolute;
-            top: 15px;
-            left: 25px;
-            /* Centered with 270 width in 320 container */
-            width: 270px;
-            height: 190px;
-            /* Slightly smaller */
-            background: #fffdf9;
-            /* Paper texture */
-            background-image: repeating-linear-gradient(#fffdf9 0px, #fffdf9 24px, #eee 25px);
-            border-radius: 5px;
-            padding: 25px 20px;
-            box-sizing: border-box;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-            z-index: 5;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.5s ease;
-            border: 1px solid #eee;
-        }
-
-        .letter h1 {
-            font-family: 'Dancing Script', cursive;
-            color: var(--primary);
-            margin: 0;
-            font-size: 2rem;
-            line-height: 1.2;
-            background: white;
-            padding: 0 10px;
-        }
-
-        .letter p {
-            font-size: 0.9rem;
-            color: #444;
-            margin-top: 15px;
-            background: white;
-            padding: 2px 5px;
-            line-height: 1.6;
-        }
-
-        /* Wax Seal */
-        .heart-seal {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -70%);
-            width: 70px;
-            height: 70px;
-            background: radial-gradient(circle at 30% 30%, #ff4d6d, #d00000);
-            border-radius: 50%;
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), inset 0 2px 5px rgba(255, 255, 255, 0.3);
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.2s, opacity 0.4s;
-        }
-
-        .heart-seal:hover {
-            transform: translate(-50%, -70%) scale(1.05);
-        }
-
-        .heart-seal::after {
-            content: '❤️';
-            font-size: 32px;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Open State Animations */
-        .container.open .flap.top {
-            transform: rotateX(180deg);
-            z-index: 1;
-            transition-delay: 0s;
-        }
-
-        .container.open .letter {
-            animation: comeOut 1.5s forwards;
-            animation-delay: 0.4s;
-        }
-
-        .container.open .heart-seal {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        @keyframes comeOut {
-            0% {
-                transform: translateY(0);
-                z-index: 5;
-            }
-
-            40% {
-                transform: translateY(-190px);
-                /* Slightly more up due to overflow change? No same */
-                /* Slide Up more */
-                z-index: 5;
-            }
-
-            50% {
-                z-index: 25;
-                /* Move to front */
-                transform: translateY(-190px);
-            }
-
-            100% {
-                transform: translateY(-50px) translateZ(400px) rotateX(10deg);
-                /* Move Forward */
-                z-index: 30;
-                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            }
-        }
-
-        /* Floating Hearts BG */
-        .bg-heart {
-            position: absolute;
-            color: rgba(255, 77, 109, 0.3);
-            animation: float 10s linear infinite;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) scale(0.5);
-                opacity: 0;
-            }
-
-            50% {
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: translateY(-10vh) scale(1.2);
-                opacity: 0;
-            }
+        .active-pulse {
+            animation: pulse-red 2s infinite;
         }
     </style>
 </head>
+<body class="min-h-screen p-4 md:p-8">
 
-<body>
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 glass p-6 rounded-2xl neon-border">
+            <div>
+                <h1 class="text-3xl font-bold text-indigo-400 mb-2">
+                    <i class="fas fa-skull-crossbones mr-3"></i>REDZED SPAM PANEL
+                </h1>
+                <p class="text-slate-400 mono text-sm">Status: <span class="text-green-400">System Ready</span> | Version: 1.120.1</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex gap-4">
+                <div class="text-right">
+                    <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Server Time</p>
+                    <p id="clock" class="mono text-xl text-indigo-300">00:00:00</p>
+                </div>
+            </div>
+        </header>
 
-    <div class="container" id="envelope" onclick="toggleLetter()">
-        <div class="envelope">
-            <!-- Letter placed first to ensure it's behind flaps -->
-            <div class="letter">
-                <h1>Happy Valentine's Day!</h1>
-                <p><strong>To my dearest Antora,</strong></p>
-                <p>তোমার সাথে, আমার প্রতিটি দিন সুন্দর! ভালোবাসার কোনও স্পেশাল দিন হয়না। প্রত্যেকটি দিনই ভালোবাসা দিবস।
-                </p>
-                <p style="margin-top: 5px;">Yours forever,<br><strong>Soib</strong> ❤️</p>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Configuration Column -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="glass p-6 rounded-2xl shadow-xl">
+                    <h2 class="text-xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-cog mr-2 text-indigo-400"></i> কনফিগারেশন
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-2">টার্গেট ইউআইডি (Target UID)</label>
+                            <input type="text" id="targetUid" placeholder="যাকে স্প্যাম করবেন তার UID লিখুন" class="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 outline-none transition mono">
+                            <p class="text-[10px] text-slate-500 mt-1">* বট অ্যাকাউন্টগুলো অটোমেটিক sb.json থেকে লোড হবে</p>
+                        </div>
+                        
+                        <div class="pt-4 flex gap-3">
+                            <button id="startBtn" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg transition duration-300 flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20">
+                                <i class="fas fa-play"></i> শুরু করুন
+                            </button>
+                            <button id="stopBtn" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition duration-300 flex items-center justify-center gap-2 shadow-lg shadow-red-500/20 opacity-50 cursor-not-allowed" disabled>
+                                <i class="fas fa-stop"></i> বন্ধ করুন
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="glass p-6 rounded-2xl">
+                    <h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">লাইভ পরিসংখ্যান</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-800">
+                            <p class="text-xs text-slate-500 mb-1">সফল ইনভাইট</p>
+                            <p class="text-2xl font-bold text-green-400 mono">0</p>
+                        </div>
+                        <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-800">
+                            <p class="text-xs text-slate-500 mb-1">এরর রেট</p>
+                            <p class="text-2xl font-bold text-red-400 mono">0%</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="flap top"></div>
-            <div class="flap right"></div>
-            <div class="flap bottom"></div>
-            <div class="flap left"></div>
+            <!-- Console/Log Column -->
+            <div class="lg:col-span-2">
+                <div class="glass h-full rounded-2xl flex flex-col overflow-hidden shadow-2xl border border-indigo-500/20">
+                    <div class="bg-slate-800/50 px-6 py-4 border-b border-slate-700 flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="ml-2 text-sm font-bold mono text-slate-400">TERMINAL LOGS</span>
+                        </div>
+                        <button class="text-slate-500 hover:text-white transition">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="logContainer" class="flex-1 p-6 overflow-y-auto log-container mono text-sm space-y-2 bg-black/40">
+                        <p class="text-indigo-400">[SYSTEM] Initializing REDZED Spam Engine...</p>
+                        <p class="text-slate-500">[SYSTEM] Checking server connection...</p>
+                        <p class="text-green-400">[SYSTEM] Connection established with OB53 protocols.</p>
+                        <p class="text-slate-400">[INFO] Ready to receive UID inputs.</p>
+                    </div>
+                    
+                    <div class="p-4 bg-slate-900/80 border-t border-slate-700">
+                        <div class="flex items-center text-xs text-slate-500 gap-4">
+                            <span><i class="fas fa-microchip mr-1"></i> CPU: 12%</span>
+                            <span><i class="fas fa-memory mr-1"></i> RAM: 256MB</span>
+                            <span class="ml-auto">Powered by RedZed Team</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="heart-seal"></div>
     </div>
 
     <script>
-        // Toggle Logic
-        let isOpen = false;
-        function toggleLetter() {
-            const envelope = document.getElementById('envelope');
-            isOpen = !isOpen;
-            if (isOpen) {
-                envelope.classList.add('open');
-            } else {
-                envelope.classList.remove('open');
-            }
+        // Clock
+        function updateClock() {
+            const now = new Date();
+            const time = now.getHours().toString().padStart(2, '0') + ":" + 
+                         now.getMinutes().toString().padStart(2, '0') + ":" + 
+                         now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').textContent = time;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Log Function
+        const logContainer = document.getElementById('logContainer');
+        function addLog(message, type = 'info') {
+            const p = document.createElement('p');
+            const time = new Date().toLocaleTimeString();
+            let color = 'text-slate-300';
+            
+            if (type === 'success') color = 'text-green-400';
+            if (type === 'error') color = 'text-red-400';
+            if (type === 'warning') color = 'text-yellow-400';
+            if (type === 'system') color = 'text-indigo-400';
+
+            p.className = color;
+            p.innerHTML = `<span class="text-slate-600">[${time}]</span> ${message}`;
+            logContainer.appendChild(p);
+            logContainer.scrollTop = logContainer.scrollHeight;
         }
 
-        // Background Hearts
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('bg-heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-            heart.style.animationDuration = Math.random() * 5 + 5 + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 10000);
-        }
-        setInterval(createHeart, 500);
+        // Button Controls
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+
+        startBtn.addEventListener('click', async () => {
+            const targetUid = document.getElementById('targetUid').value;
+
+            if(!targetUid) {
+                addLog('টার্গেট ইউআইডি (Target UID) লিখুন!', 'error');
+                return;
+            }
+
+            startBtn.disabled = true;
+            startBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            
+            addLog('Starting spam process via Server...', 'system');
+            
+            try {
+                // Using Remote Server IP and Port
+                const response = await fetch('http://46.247.108.191:30042/start_spam', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ target_uid: targetUid })
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    stopBtn.disabled = false;
+                    stopBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    stopBtn.classList.add('active-pulse');
+                    addLog(result.message, 'success');
+                    addLog('🚀 HYPER SPEED JOIN => Active', 'success');
+                } else {
+                    addLog('Error: ' + result.message, 'error');
+                    startBtn.disabled = false;
+                    startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            } catch (error) {
+                addLog('সার্ভারের সাথে কানেক্ট করা যাচ্ছে না! (server.py চালু আছে কি?)', 'error');
+                startBtn.disabled = false;
+                startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        });
+
+        stopBtn.addEventListener('click', () => {
+            stopBtn.disabled = true;
+            stopBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            stopBtn.classList.remove('active-pulse');
+            
+            startBtn.disabled = false;
+            startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            
+            addLog('Spamming stopped by user.', 'error');
+        });
     </script>
 </body>
-
 </html>
