@@ -191,8 +191,8 @@
             addLog('Starting spam process via Server...', 'system');
             
             try {
-                // Using relative path for Vercel
-                const response = await fetch('/start_spam', {
+                // Using Absolute Path for Remote Server (Hosted on 46.247.108.191:30042)
+                const response = await fetch('http://46.247.108.191:30042/start_spam', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ target_uid: targetUid })
